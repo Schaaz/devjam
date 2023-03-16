@@ -15,6 +15,7 @@ h1{
     text-align: center;
     color: red;
     margin-top: 100px;
+    text-shadow: 5px 5px 0px black;
 }
 button{
     background-color: rgb(252, 2, 2);
