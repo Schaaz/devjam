@@ -1,7 +1,7 @@
 body{
     align-items: center;
     justify-content: center;
-    background-color: black;
+    background: linear-gradient(black, rgb(77, 0, 0));
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
