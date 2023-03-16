@@ -36,3 +36,9 @@ button:hover{
 button:active{
     background-color:rgb(255, 127, 127)
 } 
+.start {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }  
