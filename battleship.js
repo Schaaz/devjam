@@ -67,5 +67,11 @@ function addShipPiece(ship) {
 		} else{
 			shipBlocks.push(allBoardBlocks[Number(randomStartIndex) + i * width])
 		}
+		shipBlocks.forEach(shipBlock => {
+		shipBlock.classList.add(ship.name)
+		shipBlock.classList.add('taken')
+
+	})
 	}
 }
+ships.forEach(ship => addShipPiece(ship))
