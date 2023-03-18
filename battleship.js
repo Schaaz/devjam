@@ -1,5 +1,5 @@
 const gamesBoardContainer = document.querySelector('#gamesboard-container')
-const optioncontainer = document.querySelector('.option-container')
+const optionContainer = document.querySelector('.option-container')
 const flipButton = document.querySelector('#flip-button')
 
 // Option choosing
