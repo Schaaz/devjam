@@ -14,7 +14,7 @@ if(angle ===0){
 }
 optionShips.forEach(optionShip => optionShip.style.transform = 'rotate(${angle}deg)')
 }
-flipbutton.addEventList('click',flip)
+flipButton.addEventListener('click',flip)
 	
 //Creating Boards
 const width = 10
