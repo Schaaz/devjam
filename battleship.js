@@ -23,7 +23,7 @@ const width = 10
 function createBoard(color, user){
   const gameBoardContainer = document.createElement('div')
   gameBoardContainer.classList.add('game-board')
-  gameBoardContainer.style.backgroundColor = 'yellow'
+  gameBoardContainer.style.backgroundColor = color
   gameBoardContainer.id = user
   
   for(let i=0; i<width * width; i++){
