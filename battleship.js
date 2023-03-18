@@ -1,13 +1,13 @@
 const gamesBoardContainer = document.querySelector('#gamesboard-container')
 const optioncontainer = document.querySelector('.option-container')
-const flipbutton = document.querySelector('#flip-button')
+const flipButton = document.querySelector('#flip-button')
 
 // Option choosing
 let angle = 0
 function flip(){
 const optionShips = Array.from(optionContainer.children)
-if(angle ===0){
-	angle =90
+if(angle === 0){
+	angle = 90
 }
 	else{
 		angle =0
