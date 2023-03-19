@@ -30,10 +30,6 @@ button{
     text-align: center;
     font: bold;
     margin-top: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
 }
 button:hover{
     background-color: rgb(255, 255, 255);
@@ -42,3 +38,9 @@ button:hover{
 button:active{
     background-color:rgb(255, 127, 127)
 }  
+.start{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
