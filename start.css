@@ -1,34 +1,34 @@
-body{
-    align-items: center;
+ body{
     justify-content: center;
+    align-items: center;
+    background-position: center;
     background-image: url(https://hdqwalls.com/wallpapers/world-of-warships.jpg);
     font-family: 'Press Start 2P', cursive;
+    /* background: linear-gradient(black, rgb(77, 0, 0)); */
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    background-position: center;
 }
-h1{
+h1{ 
     /* background: linear-gradient(to right, rgb(26, 79, 147),rgb(213, 106, 255)); */
+     margin-top: 100px;
     background-repeat: no-repeat;
     background-attachment: fixed;
     text-align: center;
     color: red;
-    margin-top: 100px;
     text-shadow: 5px 5px 0px black;
 }
 button{
     background-color: rgb(252, 2, 2);
     box-shadow: 5px 5px 0px rgb(0, 0, 0);
-    width: 100px;
-    height: 50px;
-    font-size: 20px;
+    width: 200px;
+    height: 100px;
+    font-size: 40px;
     color: white;
     border: 4px solid;
     border-color: rgb(252, 97, 97);
     border-radius: 10px;
     text-align: center;
-    font: bold;
     margin-top: 100px;
 }
 button:hover{
@@ -37,10 +37,10 @@ button:hover{
 }
 button:active{
     background-color:rgb(255, 127, 127)
-}  
-.start{
+}
+#start-btn {
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-}
+  } 
