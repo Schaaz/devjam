@@ -1,6 +1,10 @@
 const gamesBoardContainer = document.querySelector('#gamesboard-container');
 const optionContainer = document.querySelector('.option-container');
 const flipButton = document.querySelector('#flip-button');
+const startButton = document.querySelector('#start-button')
+const infoDisplay = document.querySelector('#info')
+const turnDisplay = document.querySelector('#turn-display')
+
 // Option choosing
 let angle = 0;
 var temp=0;
@@ -55,19 +59,7 @@ const carrier=new Ship('carrier',5)
 
 const ships = [destroyer, submarine, cruiser, battleship, carrier]
 let notdropped
-
-function addShipPiece(user, ship, startId) {
-	// const allBoardBlocks = document.querySelectorAll('user div')
-	let allBoardBlocks
-	if (user==='player'){
-		allBoardBlocks = document.querySelectorAll('#player div')
-	} else{
-		allBoardBlocks = document.querySelectorAll('#computer div')
-	}
-	let randomStartIndex = Math.floor(Math.random() * width * width)
-	let startIndex = startId? startId: randomStartIndex
-	let randomBoolean = Math.random()<0.5
-	let isHorizontal = user === 'player'? angle === 0: randomBoolean
+function getValidity(allBoardBlocks, isHorizontal, startIndex, ship){
 	let validStart = isHorizontal? startIndex <= width*width - ship.length ? startIndex : 
 	width*width - ship.length : startIndex <= width * width - ship.length*width? startIndex : startIndex - (ship.length-1)*width
 	let shipBlocks = []
@@ -90,6 +82,45 @@ function addShipPiece(user, ship, startId) {
 	}
 
 	const notTaken = shipBlocks.every(shipBlock => !shipBlock.classList.contains('taken'))
+
+	return{ shipBlocks, valid, notTaken}
+}
+
+function addShipPiece(user, ship, startId) {
+	// const allBoardBlocks = document.querySelectorAll('user div')
+	let allBoardBlocks
+	if (user==='player'){
+		allBoardBlocks = document.querySelectorAll('#player div')
+	} else{
+		allBoardBlocks = document.querySelectorAll('#computer div')
+	}
+	let randomStartIndex = Math.floor(Math.random() * width * width)
+	let startIndex = startId? startId: randomStartIndex
+	let randomBoolean = Math.random()<0.5
+	let isHorizontal = user === 'player'? angle === 0: randomBoolean
+	// let validStart = isHorizontal? startIndex <= width*width - ship.length ? startIndex : 
+	// width*width - ship.length : startIndex <= width * width - ship.length*width? startIndex : startIndex - (ship.length-1)*width
+	// let shipBlocks = []
+	
+	// for (let i=0;i<ship.length;i++){
+	// 	if (isHorizontal){
+	// 		shipBlocks.push(allBoardBlocks[Number(validStart)+i])
+	// 	} else{
+	// 		shipBlocks.push(allBoardBlocks[Number(validStart) + i * width])
+	// 	}
+	// }
+	// let valid
+	// if (isHorizontal){
+	// 	shipBlocks.every((_shipBlock, index)=>
+	// 	    // valid = shipBlocks[0].id % width !== width - (shipBlocks.legth - (index + 1)))
+	// 		valid = shipBlocks[0].id%width < width - shipBlocks.length + index +1
+	// )} else{
+	// 	shipBlocks.every((_shipBlock, index)=>
+	// 	    valid = shipBlocks[0].id < 90 + (width*index+1))
+	// }
+
+	// const notTaken = shipBlocks.every(shipBlock => !shipBlock.classList.contains('taken'))
+	const { shipBlocks, valid, notTaken} = getValidity(allBoardBlocks, isHorizontal, startIndex, ship)
 	if (valid && notTaken){
 		shipBlocks.forEach(shipBlock => {
 			shipBlock.classList.add(ship.name)
@@ -120,6 +151,8 @@ function dragStart(e){
 }
 function dragOver(e){
 	e.preventDefault()
+	const ship = ships[draggedShip.id]
+    highlightArea(e.target.id, ship)
 }
 function dropShip(e){
 	const startId = e.target.id
@@ -129,3 +162,40 @@ function dropShip(e){
 		draggedShip.remove()
 	}
 }
+//highlight
+function highlightArea(startIndex, ship){
+	
+	const allBoardBlocks = document.querySelectorAll('#player div')
+	let isHorizontal = angle === 0
+	
+	const { shipBlocks, valid, notTaken} = getValidity(allBoardBlocks, isHorizontal, startIndex, ship)
+    
+	if (valid && notTaken){
+		shipBlocks.forEach(shipBlock=>{
+			shipBlock.classList.add('hover')
+			setTimeout( ()=> shipBlock.classList.remove('hover'),500)
+		})
+	}
+}
+//gamelogic
+let gameOver = false
+let playerTurn
+
+//start game
+function startGame(){
+	if (optionContainer.children.length != 0){
+		infoDisplay.textContent = 'Please place all your pieces first!'
+	} else{
+		const allBoardBlocks = document.querySelectorAll('#computer div')
+		allBoardBlocks.forEach(block => block.addEventListener('click', handleClick))
+	}
+}
+function handleClick(e){
+	if (!gameOver){
+		if (e.target.classList.contains('taken')){
+			e.target.classList.add('boom')
+			infoDisplay.textContent = "You hit the computer's ship!"
+		}
+	}
+}
+startButton.addEventListener('click', startGame)
