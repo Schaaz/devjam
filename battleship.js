@@ -60,6 +60,8 @@ function addShipPiece(ship) {
 	let randomStartIndex = Math.floor(Math.random() * width * width)
 	let randomBoolean = Math.random()<0.5
 	let isHorizontal = randomBoolean
+	let validStart = isHorizontal? randomStartIndex <= width*width - ship.length ? randomStartIndex : 
+	width*width - ship.length : randomStartIndex <= width * width - ship.length*width? randomStartIndex : randomStartIndex - (ship.length-1)*width
 	let shipBlocks = []
 	for (let i=0;i<ship.length;i++){
 		if (isHorizontal){
@@ -67,11 +69,21 @@ function addShipPiece(ship) {
 		} else{
 			shipBlocks.push(allBoardBlocks[Number(randomStartIndex) + i * width])
 		}
+	let valid
+	if (isHorizontal){
+		shipBlocks.every((_shipBlock, index)=>
+		    valid = shipBlocks[0].id % width !== width - (shipBlocks.legth - (index + 1)))
+	} else{
+		shipBlocks.every((_shipBlock, index)=>
+		    valid = shipBlocks[0].id < 90 + (width*index+1))
+	}
+	const notTaken = shipBlocks.every(shipBlock => !shipBlock.classList.contains('taken'))
+	if (valid && notTaken){
 		shipBlocks.forEach(shipBlock => {
 		shipBlock.classList.add(ship.name)
 		shipBlock.classList.add('taken')
 
-	})
+	})}
 	}
 }
 ships.forEach(ship => addShipPiece(ship))
