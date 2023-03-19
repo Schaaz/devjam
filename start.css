@@ -38,7 +38,7 @@ button:hover{
 button:active{
     background-color:rgb(255, 127, 127)
 } 
-.start {
+#start-btn {
     display: flex;
     justify-content: center;
     align-items: center;
