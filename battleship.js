@@ -98,26 +98,6 @@ function addShipPiece(user, ship, startId) {
 	let startIndex = startId? startId: randomStartIndex
 	let randomBoolean = Math.random()<0.5
 	let isHorizontal = user === 'player'? angle === 0: randomBoolean
-	// let validStart = isHorizontal? startIndex <= width*width - ship.length ? startIndex : 
-	// width*width - ship.length : startIndex <= width * width - ship.length*width? startIndex : startIndex - (ship.length-1)*width
-	// let shipBlocks = []
-	
-	// for (let i=0;i<ship.length;i++){
-	// 	if (isHorizontal){
-	// 		shipBlocks.push(allBoardBlocks[Number(validStart)+i])
-	// 	} else{
-	// 		shipBlocks.push(allBoardBlocks[Number(validStart) + i * width])
-	// 	}
-	// }
-	// let valid
-	// if (isHorizontal){
-	// 	shipBlocks.every((_shipBlock, index)=>
-	// 	    // valid = shipBlocks[0].id % width !== width - (shipBlocks.legth - (index + 1)))
-	// 		valid = shipBlocks[0].id%width < width - shipBlocks.length + index +1
-	// )} else{
-	// 	shipBlocks.every((_shipBlock, index)=>
-	// 	    valid = shipBlocks[0].id < 90 + (width*index+1))
-	// }
 
 	// const notTaken = shipBlocks.every(shipBlock => !shipBlock.classList.contains('taken'))
 	const { shipBlocks, valid, notTaken} = getValidity(allBoardBlocks, isHorizontal, startIndex, ship)
@@ -161,6 +141,8 @@ function dropShip(e){
 	if (!notdropped){
 		draggedShip.remove()
 	}
+	draggedShip = null
+	
 }
 //highlight
 function highlightArea(startIndex, ship){
@@ -183,19 +165,49 @@ let playerTurn
 
 //start game
 function startGame(){
-	if (optionContainer.children.length != 0){
-		infoDisplay.textContent = 'Please place all your pieces first!'
-	} else{
-		const allBoardBlocks = document.querySelectorAll('#computer div')
-		allBoardBlocks.forEach(block => block.addEventListener('click', handleClick))
+	if (playerTurn === undefined){
+		if (optionContainer.children.length != 0){
+			infoDisplay.textContent = 'Please place all your pieces first!'
+		} else{
+			const allBoardBlocks = document.querySelectorAll('#computer div')
+			allBoardBlocks.forEach(block => block.addEventListener('click', handleClick))
+			playerTurn = true
+			turnDisplay.textContent = "Your turn"
+			infoDisplay.textContent = "The game has started..."
+		}
 	}
+	
 }
+startButton.addEventListener('click', startGame)
+
+let playerHits = []
+let computerHits = []
+const playerSunkShips = []
+const computerSunkShips = [] 
+
 function handleClick(e){
 	if (!gameOver){
+		if (!e.target.classList.contains('boom') && !(e.target.classList.contains('empty'))){
 		if (e.target.classList.contains('taken')){
 			e.target.classList.add('boom')
 			infoDisplay.textContent = "You hit the computer's ship!"
+			var classes = Array.from(e.target.classList)
+			classes = classes.filter(className => className !== 'block')
+			classes = classes.filter(className => className !== 'boom')
+			classes = classes.filter(className => className !== 'taken')
+			playerHits.push(...classes)
+			checkScore('player', playerHits, playerSunkShips)
 		}
+		if (!e.target.classList.contains('taken')){
+			infoDisplay.textContent = "You missed this time."
+			e.target.classList.add('empty')
+		}
+		playerTurn = false
+		const allBoardBlocks = document.querySelectorAll('#computer div')
+		allBoardBlocks.forEach(block => block.replaceWith(block.cloneNode(true)))
+		setTimeout(computerGo, 3000)
+	} else {
+		infoDisplay.textContent = "Hit a different block!"
+	}
 	}
 }
-startButton.addEventListener('click', startGame)
