@@ -98,6 +98,26 @@ function addShipPiece(user, ship, startId) {
 	let startIndex = startId? startId: randomStartIndex
 	let randomBoolean = Math.random()<0.5
 	let isHorizontal = user === 'player'? angle === 0: randomBoolean
+	// let validStart = isHorizontal? startIndex <= width*width - ship.length ? startIndex : 
+	// width*width - ship.length : startIndex <= width * width - ship.length*width? startIndex : startIndex - (ship.length-1)*width
+	// let shipBlocks = []
+	
+	// for (let i=0;i<ship.length;i++){
+	// 	if (isHorizontal){
+	// 		shipBlocks.push(allBoardBlocks[Number(validStart)+i])
+	// 	} else{
+	// 		shipBlocks.push(allBoardBlocks[Number(validStart) + i * width])
+	// 	}
+	// }
+	// let valid
+	// if (isHorizontal){
+	// 	shipBlocks.every((_shipBlock, index)=>
+	// 	    // valid = shipBlocks[0].id % width !== width - (shipBlocks.legth - (index + 1)))
+	// 		valid = shipBlocks[0].id%width < width - shipBlocks.length + index +1
+	// )} else{
+	// 	shipBlocks.every((_shipBlock, index)=>
+	// 	    valid = shipBlocks[0].id < 90 + (width*index+1))
+	// }
 
 	// const notTaken = shipBlocks.every(shipBlock => !shipBlock.classList.contains('taken'))
 	const { shipBlocks, valid, notTaken} = getValidity(allBoardBlocks, isHorizontal, startIndex, ship)
@@ -247,4 +267,40 @@ function computerGo(){
 			allBoardBlocks.forEach(block => block.addEventListener('click', handleClick))
 		}, 6000)
 	}
+}
+function checkScore(user, userHits, userSunkShips){
+
+	function checkShip(shipName, shipLength) {
+		if (userHits.filter(storedShipName => storedShipName === shipName).length === shipLength){
+			
+			if (user === 'player'){
+				playerHits = userHits.filter(storedShipName => storedShipName!== shipName)
+				infoDisplay.textContent = "You sunk the computer's "+shipName
+			}
+			if (user === 'computer'){
+				computerHits = userHits.filter(storedShipName => storedShipName!== shipName)
+				infoDisplay.textContent = "The computer sunk your "+shipName
+			}
+			userSunkShips.push(shipName)
+		}
+	}
+	checkShip('destroyer', 2)
+	checkShip('submarine', 3)
+	checkShip('cruiser', 3)
+	checkShip('battleship', 4)
+	checkShip('carrier', 5)
+	console.log('playerHits', playerHits)
+	console.log('playerSunkShips', playerSunkShips)
+	console.log('computerHits', computerHits)
+	console.log('computerSunkShips', computerSunkShips)
+
+	if (playerSunkShips.length === 5){
+		infoDisplay.textContent = "You sunks all the computer's ships!! YOU WON!!"
+		gameOver = true
+	}
+	if (computerSunkShips.length === 5){
+		infoDisplay.textContent = "The computer sunk all your ships!! YOU SUCK!!"
+		gameOver = true
+	}
+	
 }
