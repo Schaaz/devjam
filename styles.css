@@ -2,6 +2,7 @@
     width: 500px;
     display: flex;
     justify-content: space-between;
+  margin-left: 500px;
     
   }
   
@@ -16,7 +17,7 @@
     width: 20px;
     height: 20px;
     border: 1px solid rgb(104, 104, 104);
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
   
@@ -27,6 +28,7 @@
     display: flex;
     align-items: center;
     margin: 30px 0;
+    margin-left: 500px;
   }
   
   .destroyer {
@@ -100,7 +102,7 @@
   height: 50px;
   width: 120px;
   margin-right: 40px;
-  margin-left: 80px;
+  margin-left: 570px;
   font-size: 20px;
   
 }
@@ -111,4 +113,14 @@
   margin-right: 70px;
   margin-left: 50px;
   font-size: 20px;
+}
+body{
+  background-image: url(https://images6.alphacoders.com/100/1003800.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+p{
+  margin-left: 500px;
+  color: white;
 }
