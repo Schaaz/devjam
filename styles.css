@@ -15,8 +15,8 @@
   .block {
     width: 20px;
     height: 20px;
-    /* border: 1px solid rgb(104, 104, 104);
-    box-sizing: border-box; */
+    border: 1px solid rgb(104, 104, 104);
+    box-sizing: border-box; 
 }
 
   
